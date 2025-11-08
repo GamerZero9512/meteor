@@ -5,7 +5,7 @@ param(
 Write-Host "meteorRename`r`n"
 Write-Host "This is the console window. Ignore it.`r`nClose either window to exit meteorRename.`r`n"
 
-[System.IO.Directory]::SetCurrentDirectory($StartIn)
+Set-Location "$StartIn"
 Add-Type -AssemblyName PresentationFramework
 . "$PSScriptRoot\meteor_actions.ps1"   # Import functions from actions file
 

@@ -1,7 +1,7 @@
 @echo off
 set "oldcd=%cd%"
 if "%~1"=="--version" (
-	echo meteorRename version 1.0
+	echo meteorRename version 1.1
 	echo Developed by Josh Abedelmassieh
 	exit /b
 ) else if "%~1"=="--at" (
@@ -28,8 +28,9 @@ if %errorlevel% gtr 0 (
 	echo Invalid directory!
 	pause >nul
 	exit /b
+) else (
+	set "workpath=%cd%"
 )
-set "workpath=%cd%"
 cd %~dp0
 start "meteorRename" powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%~dp0meteor_gui.ps1" -StartIn "%workpath%"
 cd %oldcd%
