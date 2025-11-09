@@ -14,7 +14,7 @@ $xaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="meteorRename: $StartIn"
-        Height="660" Width="350"
+        Height="710" Width="350"
         WindowStartupLocation="CenterScreen"
         Background="#2C2C2C"
 	ResizeMode="CanResize"
@@ -119,7 +119,25 @@ $xaml = @"
     </Button>
 
     <!-- Lowercase -->
-    <Button x:Name="BtnLowercase" Content="Change to Lowercase" Height="35"
+    <Button x:Name="BtnLowercase" Content="Change to Lowercase" Height="35" Margin="0,0,0,15"
+            Background="#616161" Foreground="White" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand">
+      <Button.Resources>
+        <Style TargetType="Button">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="Button">
+                <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                  <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </Button.Resources>
+    </Button>
+
+    <!-- Lowercase -->
+    <Button x:Name="BtnUppercase" Content="Change to Uppercase" Height="35"
             Background="#616161" Foreground="White" BorderThickness="0" FontWeight="SemiBold" Cursor="Hand">
       <Button.Resources>
         <Style TargetType="Button">
@@ -152,6 +170,7 @@ $BtnPrefix = $window.FindName("BtnPrefix")
 $BtnSuffix = $window.FindName("BtnSuffix")
 $BtnRenameNum = $window.FindName("BtnRenameNum")
 $BtnLowercase = $window.FindName("BtnLowercase")
+$BtnUppercase = $window.FindName("BtnUppercase")
 
 $SearchBox = $window.FindName("SearchBox")
 $ReplaceBox = $window.FindName("ReplaceBox")
@@ -167,6 +186,7 @@ $BtnPrefix.Add_Click({ AddPrefix $PrefixBox.Text })
 $BtnSuffix.Add_Click({ AddSuffix $SuffixBox.Text })
 $BtnRenameNum.Add_Click({ RenameAndNumber $RenameBox.Text $StartNum.Text $PaddingBox.Text })
 $BtnLowercase.Add_Click({ LowercaseAll })
+$BtnUppercase.Add_Click({ UppercaseAll })
 
 # Run the GUI
 $window.ShowDialog() | Out-Null

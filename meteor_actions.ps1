@@ -93,3 +93,21 @@ function LowercaseAll {
         [System.Windows.MessageBox]::Show("Renamed $count files.", "meteorRename")
     }
 }
+
+# Uppercase all filenames
+function UppercaseAll {
+    $count = 0
+    Get-ChildItem -File | ForEach-Object {
+        $newName = $_.Name.ToUpper()
+        if ($newName -cne $_.Name) {
+            Rename-Item $_.FullName $newName -ErrorAction SilentlyContinue
+            $count++
+        }
+    }
+
+    if ($count -eq 0) {
+        [System.Windows.MessageBox]::Show("No files to convert.", "meteorRename")
+    } else {
+        [System.Windows.MessageBox]::Show("Renamed $count files.", "meteorRename")
+    }
+}

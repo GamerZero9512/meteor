@@ -1,8 +1,28 @@
 @echo off
 set "oldcd=%cd%"
 if "%~1"=="--version" (
-	echo meteorRename version 1.1
+	echo meteorRename version 1.2
 	echo Developed by Josh Abedelmassieh
+	exit /b
+) else if "%~1"=="--changelog" (
+	echo meteorRename Changelog
+	echo.
+	echo v1.1
+	echo Added --at flag
+	echo Fixed set-location in gui
+	echo.
+	echo v1.2
+	echo Added "Change to Uppercase" button
+	echo Added --changelog flag
+	echo Added --help flag and help page
+	exit /b
+) else if "%~1"=="--help" (
+	echo meteorRename Help
+	echo.
+	echo Usage: meteor [flag]
+	echo Flags: --at [path]   Opens meteorRename in a specified directory
+	echo        --help        Displays this help message
+	echo        --changelog   Displays a changelog
 	exit /b
 ) else if "%~1"=="--at" (
 	set "workpath=%~2"
