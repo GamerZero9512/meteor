@@ -2,8 +2,8 @@ param(
     [string]$StartIn = (Get-Location)
 )
 
-Write-Host "meteorRename`r`n"
-Write-Host "This is the console window. Ignore it.`r`nClose either window to exit meteorRename.`r`n"
+Write-Host "meteorRename`n"
+Write-Host "This is the console window, which can be used to diagnose issues.`nClose either window to exit meteorRename.`n"
 
 Set-Location "$StartIn"
 Add-Type -AssemblyName PresentationFramework
