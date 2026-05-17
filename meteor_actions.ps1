@@ -9,8 +9,13 @@ function SearchAndReplace($search, $replace) {
     Get-ChildItem -File | ForEach-Object {
         $newName = $_.Name -replace [regex]::Escape($search), $replace
         if ($newName -ne $_.Name) {
-            Rename-Item $_.FullName $newName -ErrorAction SilentlyContinue
-            $count++
+            $oldName = $_.Name
+            try {
+                Rename-Item $_.FullName $newName -ErrorAction Stop
+                $count++
+            } catch {
+                Write-Warning "Failed to rename '$oldName' to '$newName': $_"
+            }
         }
     }
 
@@ -26,9 +31,14 @@ function AddPrefix($prefix) {
 
     $count = 0
     Get-ChildItem -File | ForEach-Object {
+        $oldName = $_.Name
         $newName = "$prefix$($_.Name)"
-        Rename-Item $_.FullName $newName -ErrorAction SilentlyContinue
-        $count++
+        try {
+            Rename-Item -Path $_.FullName -NewName $newName -ErrorAction Stop
+            $count++
+        } catch {
+            Write-Warning "Failed to rename '$oldName' to '$newName': $_"
+        }
     }
 
     [System.Windows.MessageBox]::Show("Renamed $count files.", "meteorRename")
@@ -43,11 +53,16 @@ function AddSuffix($suffix) {
 
     $count = 0
     Get-ChildItem -File | ForEach-Object {
+        $oldName = $_.Name
         $name = [System.IO.Path]::GetFileNameWithoutExtension($_.Name)
         $ext = $_.Extension
         $newName = "$name$suffix$ext"
-        Rename-Item $_.FullName $newName -ErrorAction SilentlyContinue
-        $count++
+        try {
+            Rename-Item -Path $_.FullName -NewName $newName -ErrorAction Stop
+            $count++
+        } catch {
+            Write-Warning "Failed to rename '$oldName' to '$newName': $_"
+        }
     }
 
     [System.Windows.MessageBox]::Show("Renamed $count files.", "meteorRename")
@@ -65,12 +80,17 @@ function RenameAndNumber($basename, $startNum, $padding) {
     $count = 0
 
     Get-ChildItem -File | Sort-Object Name | ForEach-Object {
+        $oldName = $_.FullName
         $num = $startNum + $count
         $numStr = $num.ToString("D$padding")
         $ext = $_.Extension
         $newName = "$basename$numStr$ext"
-        Rename-Item $_.FullName $newName -ErrorAction SilentlyContinue
-        $count++
+        try {
+            Rename-Item $oldName $newName -ErrorAction Stop
+            $count++
+        } catch {
+            Write-Warning "Failed to rename '$oldName' to '$newName': $_"
+        }
     }
 
     [System.Windows.MessageBox]::Show("Renamed $count files.", "meteorRename")
@@ -80,10 +100,15 @@ function RenameAndNumber($basename, $startNum, $padding) {
 function LowercaseAll {
     $count = 0
     Get-ChildItem -File | ForEach-Object {
+        $oldName = $_.Name
         $newName = $_.Name.ToLower()
         if ($newName -cne $_.Name) {
-            Rename-Item $_.FullName $newName -ErrorAction SilentlyContinue
-            $count++
+            try {
+                Rename-Item $_.FullName $newName -ErrorAction Stop
+                $count++
+            } catch {
+                Write-Warning "Failed to rename '$oldName' to '$newName': $_"
+            }
         }
     }
 
@@ -98,10 +123,15 @@ function LowercaseAll {
 function UppercaseAll {
     $count = 0
     Get-ChildItem -File | ForEach-Object {
+        $oldName = $_.Name
         $newName = $_.Name.ToUpper()
         if ($newName -cne $_.Name) {
-            Rename-Item $_.FullName $newName -ErrorAction SilentlyContinue
-            $count++
+            try {
+                Rename-Item $_.FullName $newName -ErrorAction Stop
+                $count++
+            } catch {
+                Write-Warning "Failed to rename '$oldName' to '$newName': $_"
+            }
         }
     }
 
